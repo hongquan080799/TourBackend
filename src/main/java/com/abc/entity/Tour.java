@@ -16,37 +16,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="TOUR")
 public class Tour implements Serializable {
 
     /** Primary key. */
     protected static final String PK = "matour";
-
-    /**
-     * The optimistic lock. Available via standard bean get/set operations.
-     */
-    @Version
-    @Column(name="LOCK_FLAG")
-    private Integer lockFlag;
-
-    /**
-     * Access method for the lockFlag property.
-     *
-     * @return the current value of the lockFlag property
-     */
-    public Integer getLockFlag() {
-        return lockFlag;
-    }
-
-    /**
-     * Sets the value of the lockFlag property.
-     *
-     * @param aLockFlag the new value of the lockFlag property
-     */
-    public void setLockFlag(Integer aLockFlag) {
-        lockFlag = aLockFlag;
-    }
-
     @Id
     @Column(name="MATOUR", unique=true, nullable=false, length=12)
     private String matour;
@@ -62,14 +38,17 @@ public class Tour implements Serializable {
     private double giatreem;
     @Column(name="GIANGUOILON", precision=53)
     private double gianguoilon;
-    @Column(name="MADM", length=12)
-    private String madm;
+    
+    @JsonIgnore
     @OneToMany(mappedBy="tour")
     private Set<Binhluan> binhluan;
+    @JsonIgnore
     @OneToMany(mappedBy="tour")
     private Set<Danhgia> danhgia;
+    @JsonIgnore
     @OneToMany(mappedBy="tour")
     private Set<Dattour> dattour;
+    @JsonIgnore
     @OneToMany(mappedBy="tour")
     private Set<PhutrachTour> phutrachTour;
     @ManyToOne
@@ -207,29 +186,7 @@ public class Tour implements Serializable {
         gianguoilon = aGianguoilon;
     }
 
-    /**
-     * Access method for madm.
-     *
-     * @return the current value of madm
-     */
-    public String getMadm() {
-        return madm;
-    }
 
-    /**
-     * Setter method for madm.
-     *
-     * @param aMadm the new value for madm
-     */
-    public void setMadm(String aMadm) {
-        madm = aMadm;
-    }
-
-    /**
-     * Access method for binhluan.
-     *
-     * @return the current value of binhluan
-     */
     public Set<Binhluan> getBinhluan() {
         return binhluan;
     }
