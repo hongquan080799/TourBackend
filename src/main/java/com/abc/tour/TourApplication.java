@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan({"com.abc.controller"})
 @EntityScan("com.abc.entity")
 public class TourApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(TourApplication.class, args);
 	}
