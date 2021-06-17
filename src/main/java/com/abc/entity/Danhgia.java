@@ -30,7 +30,6 @@ public class Danhgia implements Serializable {
     protected static final String PK = "DanhgiaPkDanhgia01B1A7135Bdab359";
 
 
-
     @Column(name="DANHGIA", precision=10)
     private int danhgia;
     @ManyToOne(optional=false)

@@ -26,10 +26,6 @@ public class Tour implements Serializable {
     @Id
     @Column(name="MATOUR", unique=true, nullable=false, length=12)
     private String matour;
-    @Column(name="TIEUDE", length=200)
-    private String tieude;
-    @Column(name="MOTA", length=500)
-    private String mota;
     @Column(name="TGBD")
     private LocalDateTime tgbd;
     @Column(name="TGKT")
@@ -78,47 +74,6 @@ public class Tour implements Serializable {
         matour = aMatour;
     }
 
-    /**
-     * Access method for tieude.
-     *
-     * @return the current value of tieude
-     */
-    public String getTieude() {
-        return tieude;
-    }
-
-    /**
-     * Setter method for tieude.
-     *
-     * @param aTieude the new value for tieude
-     */
-    public void setTieude(String aTieude) {
-        tieude = aTieude;
-    }
-
-    /**
-     * Access method for mota.
-     *
-     * @return the current value of mota
-     */
-    public String getMota() {
-        return mota;
-    }
-
-    /**
-     * Setter method for mota.
-     *
-     * @param aMota the new value for mota
-     */
-    public void setMota(String aMota) {
-        mota = aMota;
-    }
-
-    /**
-     * Access method for tgbd.
-     *
-     * @return the current value of tgbd
-     */
     public LocalDateTime getTgbd() {
         return tgbd;
     }

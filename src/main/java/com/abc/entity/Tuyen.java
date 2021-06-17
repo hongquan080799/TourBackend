@@ -45,6 +45,9 @@ public class Tuyen implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Tour> tour;
+    
+    private String mota;
+    private String thoigian;
 
     /** Default constructor. */
     public Tuyen() {
@@ -78,7 +81,24 @@ public class Tuyen implements Serializable {
         return tentuyen;
     }
 
-    /**
+    
+    public String getMota() {
+		return mota;
+	}
+
+	public void setMota(String mota) {
+		this.mota = mota;
+	}
+
+	public String getThoigian() {
+		return thoigian;
+	}
+
+	public void setThoigian(String thoigian) {
+		this.thoigian = thoigian;
+	}
+
+	/**
      * Setter method for tentuyen.
      *
      * @param aTentuyen the new value for tentuyen

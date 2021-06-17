@@ -33,6 +33,7 @@ public class Taikhoan implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy="taikhoan")
     private List<Nhanvien> nhanvien;
+    private int quyen;
 
     /** Default constructor. */
     public Taikhoan() {
@@ -66,7 +67,16 @@ public class Taikhoan implements Serializable {
         return password;
     }
 
-    /**
+    
+    public int getQuyen() {
+		return quyen;
+	}
+
+	public void setQuyen(int quyen) {
+		this.quyen = quyen;
+	}
+
+	/**
      * Setter method for password.
      *
      * @param aPassword the new value for password

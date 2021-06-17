@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="NHAHANG")
 public class Nhahang implements Serializable {
 
@@ -24,6 +26,7 @@ public class Nhahang implements Serializable {
     private String manh;
     @Column(name="TENNH", length=200)
     private String tennh;
+    @JsonIgnore
     @OneToMany(mappedBy="nhahang")
     private Set<Datnhahang> datnhahang;
 
