@@ -14,46 +14,26 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="TAIKHOAN")
 public class Taikhoan implements Serializable {
 
     /** Primary key. */
     protected static final String PK = "username";
 
-    /**
-     * The optimistic lock. Available via standard bean get/set operations.
-     */
-    @Version
-    @Column(name="LOCK_FLAG")
-    private Integer lockFlag;
-
-    /**
-     * Access method for the lockFlag property.
-     *
-     * @return the current value of the lockFlag property
-     */
-    public Integer getLockFlag() {
-        return lockFlag;
-    }
-
-    /**
-     * Sets the value of the lockFlag property.
-     *
-     * @param aLockFlag the new value of the lockFlag property
-     */
-    public void setLockFlag(Integer aLockFlag) {
-        lockFlag = aLockFlag;
-    }
-
     @Id
     @Column(name="USERNAME", unique=true, nullable=false, length=50)
     private String username;
     @Column(name="PASSWORD", length=50)
     private String password;
+    @JsonIgnore
     @OneToMany(mappedBy="taikhoan")
     private List<Khachhang> listKH;
+    @JsonIgnore
     @OneToMany(mappedBy="taikhoan")
     private List<Nhanvien> nhanvien;
+    private int quyen;
 
     /** Default constructor. */
     public Taikhoan() {
@@ -87,7 +67,16 @@ public class Taikhoan implements Serializable {
         return password;
     }
 
-    /**
+    
+    public int getQuyen() {
+		return quyen;
+	}
+
+	public void setQuyen(int quyen) {
+		this.quyen = quyen;
+	}
+
+	/**
      * Setter method for password.
      *
      * @param aPassword the new value for password

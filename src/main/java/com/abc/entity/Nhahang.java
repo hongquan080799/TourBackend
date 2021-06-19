@@ -13,42 +13,20 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="NHAHANG")
 public class Nhahang implements Serializable {
 
     /** Primary key. */
     protected static final String PK = "manh";
 
-    /**
-     * The optimistic lock. Available via standard bean get/set operations.
-     */
-    @Version
-    @Column(name="LOCK_FLAG")
-    private Integer lockFlag;
-
-    /**
-     * Access method for the lockFlag property.
-     *
-     * @return the current value of the lockFlag property
-     */
-    public Integer getLockFlag() {
-        return lockFlag;
-    }
-
-    /**
-     * Sets the value of the lockFlag property.
-     *
-     * @param aLockFlag the new value of the lockFlag property
-     */
-    public void setLockFlag(Integer aLockFlag) {
-        lockFlag = aLockFlag;
-    }
-
     @Id
     @Column(name="MANH", unique=true, nullable=false, length=12)
     private String manh;
     @Column(name="TENNH", length=200)
     private String tennh;
+    @JsonIgnore
     @OneToMany(mappedBy="nhahang")
     private Set<Datnhahang> datnhahang;
 

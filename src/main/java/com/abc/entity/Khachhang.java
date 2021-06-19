@@ -16,36 +16,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="KHACHHANG")
 public class Khachhang implements Serializable {
 
     /** Primary key. */
     protected static final String PK = "cmnd";
-
-    /**
-     * The optimistic lock. Available via standard bean get/set operations.
-     */
-    @Version
-    @Column(name="LOCK_FLAG")
-    private Integer lockFlag;
-
-    /**
-     * Access method for the lockFlag property.
-     *
-     * @return the current value of the lockFlag property
-     */
-    public Integer getLockFlag() {
-        return lockFlag;
-    }
-
-    /**
-     * Sets the value of the lockFlag property.
-     *
-     * @param aLockFlag the new value of the lockFlag property
-     */
-    public void setLockFlag(Integer aLockFlag) {
-        lockFlag = aLockFlag;
-    }
 
     @Id
     @Column(name="CMND", unique=true, nullable=false, length=12)
@@ -60,24 +37,43 @@ public class Khachhang implements Serializable {
     private String email;
     @Column(name="GIOITINH", precision=10)
     private int gioitinh;
+    @JsonIgnore
     @OneToMany(mappedBy="khachhang")
     private Set<Binhluan> binhluan;
+    @JsonIgnore
     @OneToMany(mappedBy="khachhang")
     private Set<CtDattour> ctDattour;
+    @JsonIgnore
     @OneToMany(mappedBy="khachhang")
     private Set<Danhgia> danhgia;
+    @JsonIgnore
     @OneToMany(mappedBy="khachhang")
     private Set<Dattour> dattour;
     @ManyToOne
     @JoinColumn(name="USERNAME")
     private Taikhoan taikhoan;
 
+    private String id_token;
     /** Default constructor. */
     public Khachhang() {
         super();
     }
 
-    /**
+    
+    
+    public String getId_token() {
+		return id_token;
+	}
+
+
+
+	public void setId_token(String id_token) {
+		this.id_token = id_token;
+	}
+
+
+
+	/**
      * Access method for cmnd.
      *
      * @return the current value of cmnd

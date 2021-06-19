@@ -13,54 +13,41 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="TUYEN")
 public class Tuyen implements Serializable {
 
     /** Primary key. */
     protected static final String PK = "matuyen";
 
-    /**
-     * The optimistic lock. Available via standard bean get/set operations.
-     */
-    @Version
-    @Column(name="LOCK_FLAG")
-    private Integer lockFlag;
-
-    /**
-     * Access method for the lockFlag property.
-     *
-     * @return the current value of the lockFlag property
-     */
-    public Integer getLockFlag() {
-        return lockFlag;
-    }
-
-    /**
-     * Sets the value of the lockFlag property.
-     *
-     * @param aLockFlag the new value of the lockFlag property
-     */
-    public void setLockFlag(Integer aLockFlag) {
-        lockFlag = aLockFlag;
-    }
 
     @Id
     @Column(name="MATUYEN", unique=true, nullable=false, length=12)
     private String matuyen;
     @Column(name="TENTUYEN", length=100)
     private String tentuyen;
+    @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Datkhachsan> datkhachsan;
+    @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Datnhahang> datnhahang;
+    @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Hinhthucdichuyen> hinhthucdichuyen;
+    @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Lichtrinh> lichtrinh;
+    @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Photo> photo;
+    @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Tour> tour;
+    
+    private String mota;
+    private String thoigian;
 
     /** Default constructor. */
     public Tuyen() {
@@ -94,7 +81,24 @@ public class Tuyen implements Serializable {
         return tentuyen;
     }
 
-    /**
+    
+    public String getMota() {
+		return mota;
+	}
+
+	public void setMota(String mota) {
+		this.mota = mota;
+	}
+
+	public String getThoigian() {
+		return thoigian;
+	}
+
+	public void setThoigian(String thoigian) {
+		this.thoigian = thoigian;
+	}
+
+	/**
      * Setter method for tentuyen.
      *
      * @param aTentuyen the new value for tentuyen
