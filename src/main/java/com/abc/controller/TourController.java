@@ -1,5 +1,6 @@
 package com.abc.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.abc.entity.Tour;
 import com.abc.repository.TourRepository;
@@ -71,5 +74,10 @@ public class TourController {
 			}
 		}
 		return false;
+	}
+	@PostMapping("/hongquan")
+	public String getFile(@Validated @RequestParam("file") MultipartFile hinhanh) {
+		System.out.println(hinhanh.toString());
+		return "ok";
 	}
 }

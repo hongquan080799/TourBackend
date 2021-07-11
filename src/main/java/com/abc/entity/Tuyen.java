@@ -4,6 +4,7 @@ package com.abc.entity;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,9 +40,9 @@ public class Tuyen implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Lichtrinh> lichtrinh;
-    @JsonIgnore
+
     @OneToMany(mappedBy="tuyen")
-    private Set<Photo> photo;
+    private List<Photo> photo;
     @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Tour> tour;
@@ -184,7 +185,7 @@ public class Tuyen implements Serializable {
      *
      * @return the current value of photo
      */
-    public Set<Photo> getPhoto() {
+    public List<Photo> getPhoto() {
         return photo;
     }
 
@@ -193,7 +194,7 @@ public class Tuyen implements Serializable {
      *
      * @param aPhoto the new value for photo
      */
-    public void setPhoto(Set<Photo> aPhoto) {
+    public void setPhoto(List<Photo> aPhoto) {
         photo = aPhoto;
     }
 
