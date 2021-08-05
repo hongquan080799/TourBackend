@@ -12,21 +12,29 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Version;
 
 @Entity(name="CT_DATTOUR")
-@IdClass(CtDattour.CtDattourId.class)
+@IdClass(CtDatTourID.class)
 public class CtDattour implements Serializable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * IdClass for primary key when using JPA annotations
      */
-    public class CtDattourId implements Serializable {
-        java.lang.String matour;
-        java.lang.String cmndNguoidat;
-        Khachhang khachhang;
-    }
-
+//	public class CtDatTourID  implements Serializable {
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		java.lang.String matour;
+//	    java.lang.String cmndNguoidat;
+//	    Khachhang khachhang;
+//	}
+  
     /** Primary key. */
     protected static final String PK = "CtDattourPkCtDattour";
 
@@ -35,13 +43,13 @@ public class CtDattour implements Serializable {
     @Column(name="MATOUR", nullable=false, length=12)
     private String matour;
     @Id
-    @Column(name="CMND_NGUOIDAT", nullable=false, length=12)
-    private String cmndNguoidat;
+    @Column(name="ID_NGUOIDAT", nullable=false, length=12)
+    private String id_nguoidat;
     @Column(name="LOAIGIA", precision=10)
     private int loaigia;
     @ManyToOne(optional=false)
     @Id
-    @JoinColumn(name="CMND", nullable=false)
+    @JoinColumn(name="ID_KHACHHANG", nullable=false)
     private Khachhang khachhang;
 
     /** Default constructor. */
@@ -72,8 +80,8 @@ public class CtDattour implements Serializable {
      *
      * @return the current value of cmndNguoidat
      */
-    public String getCmndNguoidat() {
-        return cmndNguoidat;
+    public String getIdNguoidat() {
+        return id_nguoidat;
     }
 
     /**
@@ -81,8 +89,8 @@ public class CtDattour implements Serializable {
      *
      * @param aCmndNguoidat the new value for cmndNguoidat
      */
-    public void setCmndNguoidat(String aCmndNguoidat) {
-        cmndNguoidat = aCmndNguoidat;
+    public void setIdNguoidat(String aCmndNguoidat) {
+        id_nguoidat = aCmndNguoidat;
     }
 
     /**
@@ -175,8 +183,8 @@ public class CtDattour implements Serializable {
         if (myMatour==null ? yourMatour!=null : !myMatour.equals(yourMatour)) {
             return false;
         }
-        Object myCmndNguoidat = this.getCmndNguoidat();
-        Object yourCmndNguoidat = that.getCmndNguoidat();
+        Object myCmndNguoidat = this.getIdNguoidat();
+        Object yourCmndNguoidat = that.getIdNguoidat();
         if (myCmndNguoidat==null ? yourCmndNguoidat!=null : !myCmndNguoidat.equals(yourCmndNguoidat)) {
             return false;
         }
@@ -215,10 +223,10 @@ public class CtDattour implements Serializable {
             i = getMatour().hashCode();
         }
         result = 37*result + i;
-        if (getCmndNguoidat() == null) {
+        if (getIdNguoidat() == null) {
             i = 0;
         } else {
-            i = getCmndNguoidat().hashCode();
+            i = getIdNguoidat().hashCode();
         }
         result = 37*result + i;
         if (getKhachhangCmnd() == null) {
@@ -239,7 +247,7 @@ public class CtDattour implements Serializable {
     public String toString() {
         StringBuffer sb = new StringBuffer("[CtDattour |");
         sb.append(" matour=").append(getMatour());
-        sb.append(" cmndNguoidat=").append(getCmndNguoidat());
+        sb.append(" cmndNguoidat=").append(getIdNguoidat());
         sb.append(" khachhangCmnd=").append(getKhachhangCmnd());
         sb.append("]");
         return sb.toString();
@@ -253,7 +261,7 @@ public class CtDattour implements Serializable {
     public Map<String, Object> getPrimaryKey() {
         Map<String, Object> ret = new LinkedHashMap<String, Object>(6);
         ret.put("matour", getMatour());
-        ret.put("cmndNguoidat", getCmndNguoidat());
+        ret.put("cmndNguoidat", getIdNguoidat());
         ret.put("khachhangCmnd", getKhachhangCmnd());
         return ret;
     }

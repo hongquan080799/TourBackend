@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
 @Entity(name="DATKHACHSAN")
-@IdClass(Datkhachsan.DatkhachsanId.class)
+@IdClass(DatkhachsanId.class)
 public class Datkhachsan implements Serializable {
 
     /**

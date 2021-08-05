@@ -15,16 +15,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
 @Entity(name="HINHTHUCDICHUYEN")
-@IdClass(Hinhthucdichuyen.HinhthucdichuyenId.class)
+@IdClass(HinhthucdichuyenId.class)
 public class Hinhthucdichuyen implements Serializable {
 
     /**
      * IdClass for primary key when using JPA annotations
      */
-    public class HinhthucdichuyenId implements Serializable {
-        Phuongtien phuongtien;
-        Tuyen tuyen;
-    }
+//    public class HinhthucdichuyenId implements Serializable {
+//        Phuongtien phuongtien;
+//        Tuyen tuyen;
+//    }
 
     /** Primary key. */
     protected static final String PK = "HinhthucdichuyenPkHinhthucdichuyen";

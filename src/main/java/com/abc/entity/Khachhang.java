@@ -25,6 +25,8 @@ public class Khachhang implements Serializable {
     protected static final String PK = "cmnd";
 
     @Id
+    @Column(name = "ID")
+    private String id;
     @Column(name="CMND", unique=true, nullable=false, length=12)
     private String cmnd;
     @Column(name="TENKH", length=100)
@@ -270,8 +272,21 @@ public class Khachhang implements Serializable {
     public void setTaikhoan(Taikhoan aTaikhoan) {
         taikhoan = aTaikhoan;
     }
+    
+    
+    public String getId() {
+		return id;
+	}
 
-    /**
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+
+	/**
      * Compares the key for this instance with another Khachhang.
      *
      * @param other The object to compare to
@@ -346,5 +361,5 @@ public class Khachhang implements Serializable {
         ret.put("cmnd", getCmnd());
         return ret;
     }
-
+    
 }
