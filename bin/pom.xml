@@ -14,7 +14,11 @@
 	<name>tour</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
+<<<<<<< HEAD
 		<java.version>1.8</java.version>
+=======
+		<java.version>11</java.version>
+>>>>>>> 954f904ada029103463482fd1f9834b2b31ccab6
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,6 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency> -->
+<<<<<<< HEAD
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
@@ -32,6 +37,8 @@
 		    <version>2.4.3</version>
 		</dependency>
 		
+=======
+>>>>>>> 954f904ada029103463482fd1f9834b2b31ccab6
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
