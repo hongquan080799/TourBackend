@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@ComponentScan({"com.abc.controller","com.abc.tour"})
+@ComponentScan({"com.abc.controller","com.abc.tour","com.abc.jwt.configs","com.abc.service"})
 @EntityScan("com.abc.entity")
 @EnableJpaRepositories("com.abc.repository")
 @EnableScheduling

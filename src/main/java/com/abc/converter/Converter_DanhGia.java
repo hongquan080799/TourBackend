@@ -24,8 +24,7 @@ public class Converter_DanhGia {
 		Khachhang khachhang = new Khachhang();
 		khachhang.setId(dto_DanhGia.getMakh());
 		danhgia.setKhachhang(khachhang);
-		Tour tour = new Tour();
-		tour.setMatour(dto_DanhGia.getMatour());
+		Tour tour = new Tour();		tour.setMatour(dto_DanhGia.getMatour());
 		danhgia.setTour(tour);
 		return danhgia;
 	}

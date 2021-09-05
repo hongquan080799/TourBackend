@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,8 +28,10 @@ public class Khachhang implements Serializable {
 
     @Id
     @Column(name = "ID")
-    private String id;
-    @Column(name="CMND", unique=true, nullable=false, length=12)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    
+    private Integer id;
+    @Column(name="CMND", unique=true, nullable=true, length=12)
     private String cmnd;
     @Column(name="TENKH", length=100)
     private String tenkh;
@@ -39,6 +43,9 @@ public class Khachhang implements Serializable {
     private String email;
     @Column(name="GIOITINH", precision=10)
     private int gioitinh;
+    
+    private String photo;
+    
     @JsonIgnore
     @OneToMany(mappedBy="khachhang")
     private Set<Binhluan> binhluan;
@@ -55,7 +62,6 @@ public class Khachhang implements Serializable {
     @JoinColumn(name="USERNAME")
     private Taikhoan taikhoan;
 
-    private String id_token;
     /** Default constructor. */
     public Khachhang() {
         super();
@@ -63,15 +69,22 @@ public class Khachhang implements Serializable {
 
     
     
-    public String getId_token() {
-		return id_token;
+    public String getPhoto() {
+		return photo;
 	}
 
 
 
-	public void setId_token(String id_token) {
-		this.id_token = id_token;
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
+
+
+
+	public static String getPk() {
+		return PK;
+	}
+
 
 
 
@@ -274,13 +287,16 @@ public class Khachhang implements Serializable {
     }
     
     
-    public String getId() {
+    
+
+
+	public Integer getId() {
 		return id;
 	}
 
 
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

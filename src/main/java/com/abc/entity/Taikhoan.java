@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,14 +29,35 @@ public class Taikhoan implements Serializable {
     @Column(name="PASSWORD", length=50)
     private String password;
     @JsonIgnore
-    @OneToMany(mappedBy="taikhoan")
+    @OneToMany(mappedBy="taikhoan", cascade = CascadeType.ALL)
     private List<Khachhang> listKH;
     @JsonIgnore
-    @OneToMany(mappedBy="taikhoan")
+    @OneToMany(mappedBy="taikhoan", cascade = CascadeType.ALL)
     private List<Nhanvien> nhanvien;
+    
+    private String verificationCode;
+    private Integer status;
     private int quyen;
 
-    /** Default constructor. */
+    
+    
+    public String getVerificationCode() {
+		return verificationCode;
+	}
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	/** Default constructor. */
     public Taikhoan() {
         super();
     }

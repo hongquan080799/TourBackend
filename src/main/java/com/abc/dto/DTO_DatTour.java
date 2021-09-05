@@ -1,16 +1,16 @@
 package com.abc.dto;
 
 public class DTO_DatTour {
-	String makh;
+	Integer makh;
 	String matour;
 	int trangthai;
 	int httt;
 	int soluong;
 	
-	public String getMakh() {
+	public Integer getMakh() {
 		return makh;
 	}
-	public void setMakh(String makh) {
+	public void setMakh(Integer makh) {
 		this.makh = makh;
 	}
 	public String getMatour() {

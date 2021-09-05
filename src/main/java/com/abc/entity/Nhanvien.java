@@ -39,6 +39,8 @@ public class Nhanvien implements Serializable {
     private int gioitinh;
     @Column(name="CHUCVU", length=200)
     private String chucvu;
+    private String photo;
+    
     @ManyToOne
     @JoinColumn(name="USERNAME")
     private Taikhoan taikhoan;
@@ -56,11 +58,21 @@ public class Nhanvien implements Serializable {
      *
      * @return the current value of manv
      */
+    
+    
     public String getManv() {
         return manv;
     }
 
-    /**
+    public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	/**
      * Setter method for manv.
      *
      * @param aManv the new value for manv

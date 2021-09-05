@@ -2,7 +2,6 @@
 
 package com.abc.entity;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,15 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Version;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name="TOUR")
-public class Tour implements Serializable {
+public class Tour{
 
-    /** Primary key. */
-    protected static final String PK = "matour";
     @Id
     @Column(name="MATOUR", unique=true, nullable=false, length=12)
     private String matour;
@@ -51,16 +46,6 @@ public class Tour implements Serializable {
     @JoinColumn(name="MATUYEN")
     private Tuyen tuyen;
 
-    /** Default constructor. */
-    public Tour() {
-        super();
-    }
-
-    /**
-     * Access method for matour.
-     *
-     * @return the current value of matour
-     */
     public String getMatour() {
         return matour;
     }
@@ -227,80 +212,6 @@ public class Tour implements Serializable {
         tuyen = aTuyen;
     }
 
-    /**
-     * Compares the key for this instance with another Tour.
-     *
-     * @param other The object to compare to
-     * @return True if other object is instance of class Tour and the key objects are equal
-     */
-    private boolean equalKeys(Object other) {
-        if (this==other) {
-            return true;
-        }
-        if (!(other instanceof Tour)) {
-            return false;
-        }
-        Tour that = (Tour) other;
-        Object myMatour = this.getMatour();
-        Object yourMatour = that.getMatour();
-        if (myMatour==null ? yourMatour!=null : !myMatour.equals(yourMatour)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Compares this instance with another Tour.
-     *
-     * @param other The object to compare to
-     * @return True if the objects are the same
-     */
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof Tour)) return false;
-        return this.equalKeys(other) && ((Tour)other).equalKeys(this);
-    }
-
-    /**
-     * Returns a hash code for this instance.
-     *
-     * @return Hash code
-     */
-    @Override
-    public int hashCode() {
-        int i;
-        int result = 17;
-        if (getMatour() == null) {
-            i = 0;
-        } else {
-            i = getMatour().hashCode();
-        }
-        result = 37*result + i;
-        return result;
-    }
-
-    /**
-     * Returns a debug-friendly String representation of this instance.
-     *
-     * @return String representation of this instance
-     */
-    @Override
-    public String toString() {
-        StringBuffer sb = new StringBuffer("[Tour |");
-        sb.append(" matour=").append(getMatour());
-        sb.append("]");
-        return sb.toString();
-    }
-
-    /**
-     * Return all elements of the primary key.
-     *
-     * @return Map of key names to values
-     */
-    public Map<String, Object> getPrimaryKey() {
-        Map<String, Object> ret = new LinkedHashMap<String, Object>(6);
-        ret.put("matour", getMatour());
-        return ret;
-    }
+    
 
 }
