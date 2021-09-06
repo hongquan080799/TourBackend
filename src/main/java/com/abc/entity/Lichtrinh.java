@@ -38,7 +38,7 @@ public class Lichtrinh implements Serializable {
     @Id
     @JoinColumn(name="MATUYEN", nullable=false)
     private Tuyen tuyen;
-
+    private String mota;
     /** Default constructor. */
     public Lichtrinh() {
         super();
@@ -97,7 +97,36 @@ public class Lichtrinh implements Serializable {
         return (getTuyen() == null ? tempTuyenMatuyen : getTuyen().getMatuyen());
     }
 
-    /**
+    
+    public String getMota() {
+		return mota;
+	}
+
+	public void setMota(String mota) {
+		this.mota = mota;
+	}
+
+	public String getTempTuyenMatuyen() {
+		return tempTuyenMatuyen;
+	}
+
+	public void setTempTuyenMatuyen(String tempTuyenMatuyen) {
+		this.tempTuyenMatuyen = tempTuyenMatuyen;
+	}
+
+	public int getTempDiadiemId() {
+		return tempDiadiemId;
+	}
+
+	public void setTempDiadiemId(int tempDiadiemId) {
+		this.tempDiadiemId = tempDiadiemId;
+	}
+
+	public static String getPk() {
+		return PK;
+	}
+
+	/**
      * Sets the key fragment matuyen from member tuyen.
      * If this.tuyen is null, the passed value will be temporary
      * stored, and returned by subsequent calls to getTuyenMatuyen.

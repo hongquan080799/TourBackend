@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abc.entity.Photo;
@@ -30,6 +32,11 @@ public class TuyenController {
 	@GetMapping("/tuyen")
 	public List<Tuyen> getListTuyen(){
 		return repo.findAll();
+	}
+	
+	@GetMapping("/tuyen/detail")
+	public Tuyen getTuyenByMatuyen(@RequestParam("matuyen") String matuyen){
+		return repo.findById(matuyen).get();
 	}
 	
 	@PostMapping("/tuyen")

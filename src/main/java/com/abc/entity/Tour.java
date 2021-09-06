@@ -43,6 +43,7 @@ public class Tour{
     @OneToMany(mappedBy="tour")
     private Set<PhutrachTour> phutrachTour;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="MATUYEN")
     private Tuyen tuyen;
 

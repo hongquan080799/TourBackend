@@ -40,14 +40,22 @@ public class Tuyen implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Lichtrinh> lichtrinh;
-
+    
     @OneToMany(mappedBy="tuyen")
     private List<Photo> photo;
-    @JsonIgnore
+
     @OneToMany(mappedBy="tuyen")
     private Set<Tour> tour;
-    
-    private String mota;
+    private String diadiemxp;
+    public String getDiadiemxp() {
+		return diadiemxp;
+	}
+
+	public void setDiadiemxp(String diadiemxp) {
+		this.diadiemxp = diadiemxp;
+	}
+
+	private String mota;
     private String thoigian;
 
     /** Default constructor. */
