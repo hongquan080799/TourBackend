@@ -36,8 +36,8 @@ public class Taikhoan implements Serializable {
     private List<Nhanvien> nhanvien;
     
     private String verificationCode;
-    private Integer status;
-    private int quyen;
+    private Integer status; // 0 là chưa kích hoạt, 1 là đã kích hoạt
+    private int quyen; //  1 là admin, 2 là nhân viên, 3 là user
 
     
     

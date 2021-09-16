@@ -61,18 +61,20 @@ public class RegisterController {
 		String verificationCode = tk.getUsername() + RandomString.make(50);
 		tk.setVerificationCode(verificationCode);
 		String urlSite = httpServletRequest.getRequestURL().toString().replace(httpServletRequest.getServletPath(), "");
+		System.out.println(urlSite);
 		try {
 			repo.save(tk);
 			mailService.sendVerificationMail(kh.getEmail(),kh.getTenkh() , urlSite, tk.getUsername());
 			return new ResponseEntity<CustomResponse>(new CustomResponse("Your account have been created successfully !!! !!!"), HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<CustomResponse>(new CustomResponse("Failed to create an account !!!"),HttpStatus.BAD_REQUEST);
 		}
 		
 	}
 	@GetMapping("/verify")
 	public void verificationTaikhoan(@RequestParam("code") String verificationCode,HttpServletResponse response) {
-		String redirectURL = "https://localhost:3000/login";
+		String redirectURL = "localhost:3000/login";
 		Taikhoan tk = repo.findByVerificationCode(verificationCode);
 		tk.setStatus(1);
 		try {

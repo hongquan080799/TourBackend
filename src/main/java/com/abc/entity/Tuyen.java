@@ -46,14 +46,14 @@ public class Tuyen implements Serializable {
 
     @OneToMany(mappedBy="tuyen")
     private Set<Tour> tour;
-    private String diadiemxp;
-    public String getDiadiemxp() {
-		return diadiemxp;
-	}
-
-	public void setDiadiemxp(String diadiemxp) {
-		this.diadiemxp = diadiemxp;
-	}
+//    private String diadiemxp;
+//    public String getDiadiemxp() {
+//		return diadiemxp;
+//	}
+//
+//	public void setDiadiemxp(String diadiemxp) {
+//		this.diadiemxp = diadiemxp;
+//	}
 
 	private String mota;
     private String thoigian;

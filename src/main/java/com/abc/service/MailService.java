@@ -21,7 +21,7 @@ public class MailService {
 	
 	public void sendVerificationMail(String to,String toName, String urlSite, String username) throws Exception{
 		String subject = "Please verification your account";
-		String from = "issacnewton321@gmail.com";
+		String from = "vanthanhnguyen20t@gmail.com";
 		String content = "<h2>Dear " + toName +"</h2>"
 				+ "<h3>Please click this link below to verify your registration: "
 				+ "<a href=\"[[URL]]\">Verification link</a></h3>"

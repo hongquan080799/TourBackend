@@ -14,9 +14,9 @@ public class SendMail {
 	@RequestMapping("/send")
 	public String sendMail() {
 		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setTo("hongquan080799@gmail.com");
-		msg.setSubject("cmn");
-		msg.setText("hongqua");
+		msg.setTo("vanthanhnguyen43@gmail.com");
+		msg.setSubject("This is subject");
+		msg.setText("This is content");
 		javaMailSender.send(msg);
 		return "ok";
 	}
