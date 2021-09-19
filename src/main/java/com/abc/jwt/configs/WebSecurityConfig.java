@@ -47,8 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/login","/socialLogin","/register","/verify/**").permitAll()
-			.antMatchers(HttpMethod.GET, "/tuyen/**", "/danhmuc/**").permitAll()
+			.antMatchers("/login","/socialLogin","/register","/verify/**,").permitAll()
+			.antMatchers(HttpMethod.GET, "/tuyen/**", "/danhmuc/**,/nhahang,/khachsan").permitAll()
 			.anyRequest()
 			.authenticated();
 			

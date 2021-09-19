@@ -9,6 +9,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 @Service
@@ -43,6 +44,8 @@ public class JwtTokenProvider {
 	// validate token
 	public boolean validateToken(String authToken) {
 		try {
+			System.out.println("token: " + authToken);
+			if (authToken.isEmpty()) throw new IllegalArgumentException();
 			Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
 			return true;
 		} catch (MalformedJwtException e) {
@@ -53,6 +56,10 @@ public class JwtTokenProvider {
 			System.out.println("Unsupported JWT token");
 		} catch(IllegalArgumentException e) {
 			System.out.println("JWT claims string is empty");
+		}
+		catch (SignatureException e)
+		{
+			System.out.println("JWT not trusted");
 		}
 		return false;
 	}
