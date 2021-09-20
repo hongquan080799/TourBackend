@@ -3,6 +3,7 @@
 package com.abc.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
+import com.abc.request.NhanvienRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name="TAIKHOAN")
@@ -33,7 +35,7 @@ public class Taikhoan implements Serializable {
     private List<Khachhang> listKH;
     @JsonIgnore
     @OneToMany(mappedBy="taikhoan", cascade = CascadeType.ALL)
-    private List<Nhanvien> nhanvien;
+    private List<Nhanvien> listNV;
     
     private String verificationCode;
     private Integer status; // 0 là chưa kích hoạt, 1 là đã kích hoạt
@@ -56,7 +58,25 @@ public class Taikhoan implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-
+	
+	public void updateNhanvien(NhanvienRequest nhanvienRequest) {
+		Nhanvien nhanvien = new Nhanvien();
+		nhanvien.setTennv(nhanvienRequest.getTennv());
+		nhanvien.setChucvu(nhanvienRequest.getChucvu());
+		nhanvien.setDiachi(nhanvienRequest.getDiachi());
+		nhanvien.setEmail(nhanvienRequest.getEmail());
+		nhanvien.setGioitinh(nhanvienRequest.getGioitinh());
+		nhanvien.setManv(nhanvienRequest.getManv());
+		nhanvien.setPhoto(nhanvienRequest.getPhoto());
+		nhanvien.setSdt(nhanvienRequest.getSdt());
+		this.username = nhanvienRequest.getUsername();
+		this.password = nhanvienRequest.getPassword();
+		this.quyen = 3;
+		
+		nhanvien.setTaikhoan(this);
+		this.setListNV(Arrays.asList(nhanvien));
+	}
+	
 	/** Default constructor. */
     public Taikhoan() {
         super();
@@ -144,12 +164,14 @@ public class Taikhoan implements Serializable {
 		this.listKH = listKH;
 	}
 
-	public List<Nhanvien> getNhanvien() {
-		return nhanvien;
+	
+
+	public List<Nhanvien> getListNV() {
+		return listNV;
 	}
 
-	public void setNhanvien(List<Nhanvien> nhanvien) {
-		this.nhanvien = nhanvien;
+	public void setListNV(List<Nhanvien> listNV) {
+		this.listNV = listNV;
 	}
 
 	public static String getPk() {

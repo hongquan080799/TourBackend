@@ -6,28 +6,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abc.entity.Nhanvien;
+import com.abc.entity.Taikhoan;
 import com.abc.repository.NhanVienRepository;
+import com.abc.repository.TaiKhoanRepository;
+import com.abc.request.NhanvienRequest;
 
 @RestController
+@CrossOrigin
 public class NhanVienController {
 	@Autowired
 	NhanVienRepository repoNhanVien;
+	
+	@Autowired
+	TaiKhoanRepository taiKhoanRepository;
 	
 	@GetMapping("/nhanvien")
 	public ResponseEntity<Object> getAllNhanVien()
 	{
 		try
 		{
-			List<Nhanvien> nhanViens =  repoNhanVien.findAll();
+			List<Nhanvien> nhanViens =  repoNhanVien.getListNV();
 			return new ResponseEntity<Object>(nhanViens,HttpStatus.OK);
 		}
 		catch (Exception e) {
@@ -37,12 +46,17 @@ public class NhanVienController {
 		return new ResponseEntity<Object>("2",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	@PostMapping("/nhanvien")
-	public ResponseEntity<Object> insertNhanVien(@RequestBody Nhanvien nhanvien)
+	public ResponseEntity<Object> insertNhanVien(@RequestBody NhanvienRequest nhanvienRequest)
 	{
+		String manv = "NV" +  System.currentTimeMillis() % 100000000;
+		nhanvienRequest.setManv(manv);
+		Taikhoan taikhoan = new Taikhoan();
+		taikhoan.setStatus(1);
+		taikhoan.updateNhanvien(nhanvienRequest);
+		
 		try
 		{
-			if (!repoNhanVien.existsById(nhanvien.getManv())) return new ResponseEntity<Object>("3",HttpStatus.NOT_ACCEPTABLE);
-			repoNhanVien.save(nhanvien);
+			taiKhoanRepository.save(taikhoan);
 			return new ResponseEntity<Object>("ok",HttpStatus.OK);
 		}
 		catch (Exception e) {
@@ -51,13 +65,15 @@ public class NhanVienController {
 		}
 		return new ResponseEntity<Object>("2",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	@DeleteMapping("/nhanvien/{id}")
-	public ResponseEntity<Object> deleteNhanVien(@PathVariable String id)
+	@DeleteMapping("/nhanvien")
+	public ResponseEntity<Object> deleteNhanVien(@RequestParam("username") String username)
 	{
+		
+		Taikhoan taikhoan = taiKhoanRepository.findById(username).get();
+		taikhoan.setStatus(0);
 		try
 		{
-			if (!repoNhanVien.existsById(id)) return new ResponseEntity<Object>("3",HttpStatus.NOT_ACCEPTABLE);
-			repoNhanVien.deleteById(id);
+			taiKhoanRepository.save(taikhoan);
 			return new ResponseEntity<Object>("ok",HttpStatus.OK);
 		}
 		catch (Exception e) {

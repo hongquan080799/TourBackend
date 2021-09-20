@@ -46,7 +46,7 @@ public class TaikhoanController {
 				user.setQuyen("KHACHHANG");
 				user.setId(kh.getId().toString());
 			}else if(taikhoan.getQuyen() == 2) {
-				Nhanvien nv = taikhoan.getNhanvien().get(0);
+				Nhanvien nv = taikhoan.getListNV().get(0);
 				user.setUsername(taikhoan.getUsername());
 				user.setTen(nv.getTennv());
 				//user.setDiachi("");
