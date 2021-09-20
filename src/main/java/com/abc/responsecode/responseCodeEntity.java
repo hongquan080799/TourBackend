@@ -28,6 +28,12 @@ public class responseCodeEntity {
 				responseMessage  = "Success";
 				break;
 			}
+			case SERVERERROR:
+			{
+				responseCode = 500;
+				responseMessage = "Server error";
+				break;
+			}
 		}
 	}
 	

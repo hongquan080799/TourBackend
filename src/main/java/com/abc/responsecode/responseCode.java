@@ -5,6 +5,6 @@ public enum responseCode
 	SUCCESS,
 	NOTFOUND,
 	DUPLICATE,
-	
+	SERVERERROR
 }
 

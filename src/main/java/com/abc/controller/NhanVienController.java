@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.abc.entity.Nhanvien;
 import com.abc.entity.Taikhoan;
 import com.abc.repository.NhanVienRepository;
-import com.abc.repository.TaiKhoanRepository;
+import com.abc.repository.TaikhoanRepository;
 import com.abc.request.NhanvienRequest;
+import com.abc.responsecode.responseCode;
+import com.abc.responsecode.responseCodeEntity;
 
 @RestController
 @CrossOrigin
@@ -29,7 +31,7 @@ public class NhanVienController {
 	NhanVienRepository repoNhanVien;
 	
 	@Autowired
-	TaiKhoanRepository taiKhoanRepository;
+	TaikhoanRepository taiKhoanRepository;
 	
 	@GetMapping("/nhanvien")
 	public ResponseEntity<Object> getAllNhanVien()
@@ -43,7 +45,7 @@ public class NhanVienController {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Object>("2",HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	@PostMapping("/nhanvien")
 	public ResponseEntity<Object> insertNhanVien(@RequestBody NhanvienRequest nhanvienRequest)
@@ -57,7 +59,7 @@ public class NhanVienController {
 		try
 		{
 			taiKhoanRepository.save(taikhoan);
-			return new ResponseEntity<Object>("ok",HttpStatus.OK);
+			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -74,20 +76,20 @@ public class NhanVienController {
 		try
 		{
 			taiKhoanRepository.save(taikhoan);
-			return new ResponseEntity<Object>("ok",HttpStatus.OK);
+			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Object>("2",HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	@GetMapping("/nhanvien?id={id}")
 	public ResponseEntity<Object> getNhanVien(@Param("id") String id)
 	{
 		try
 		{
-			if (!repoNhanVien.existsById(id)) return new ResponseEntity<Object>("3",HttpStatus.NOT_ACCEPTABLE);
+			if (!repoNhanVien.existsById(id)) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_ACCEPTABLE);
 			Nhanvien nhanvien = repoNhanVien.getById(id);
 			return new ResponseEntity<Object>(nhanvien,HttpStatus.OK);
 		}
@@ -95,6 +97,6 @@ public class NhanVienController {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Object>("2",HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
