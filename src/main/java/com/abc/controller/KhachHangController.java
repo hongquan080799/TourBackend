@@ -1,14 +1,17 @@
 package com.abc.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +25,7 @@ import com.abc.responsecode.responseCode;
 import com.abc.responsecode.responseCodeEntity;
 
 @RestController
+@CrossOrigin
 public class KhachHangController {
 	@Autowired
 	KhachHangRepository repo;
@@ -34,7 +38,7 @@ public class KhachHangController {
 	{
 		try
 		{
-			List<Khachhang> khachhangs = repo.findAll();
+			List<Khachhang> khachhangs = repo.getListKH();
 			return new  ResponseEntity<Object>(khachhangs,HttpStatus.OK);
 		}
 		catch (Exception e) 
@@ -85,25 +89,34 @@ public class KhachHangController {
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@DeleteMapping("/khachhang/{id}")
-	public ResponseEntity<Object> deleteKhachHang(@RequestParam String id)
+	@PutMapping("/khachhang")
+	public ResponseEntity<Object> updateKhachhang(@RequestBody KhachHangRequest khachHangRequest, Principal principal){
+		Taikhoan taikhoan = repoTaiKhoan.findByUsername(principal.getName());
+		taikhoan.updateKhachHang(khachHangRequest);
+		try {
+			repoTaiKhoan.save(taikhoan);
+			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
+	
+	
+	
+	@DeleteMapping("/khachhang")
+	public ResponseEntity<Object> deleteNhanVien(@RequestParam("username") String username)
 	{
+		
+		Taikhoan taikhoan = repoTaiKhoan.findById(username).get();
+		taikhoan.setStatus(0);
 		try
 		{
-			if (!repo.existsById(id)) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
-			
-			Khachhang khachhang = repo.getById(id);
-			if (khachhang.getTaikhoan() != null)
-			{
-				repoTaiKhoan.deleteById(khachhang.getTaikhoan().getUsername());
-			}
-			
-			repo.deleteById(id);
-			
+			repoTaiKhoan.save(taikhoan);
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		}
-		catch (Exception e) 
-		{
+		catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

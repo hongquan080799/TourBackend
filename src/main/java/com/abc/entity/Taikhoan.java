@@ -3,6 +3,7 @@
 package com.abc.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -80,8 +81,7 @@ public class Taikhoan implements Serializable {
 	
 	public void updateKhachHang(KhachHangRequest khachHangRequest)
 	{
-		Khachhang khachhang = new Khachhang();
-		khachhang.setId(khachHangRequest.getId());
+		Khachhang khachhang = this.getListKH().size() > 0 ? this.getListKH().get(0) : new Khachhang();
 		khachhang.setCmnd(khachHangRequest.getCmnd());
 		khachhang.setDiachi(khachHangRequest.getDiachi());
 		khachhang.setEmail(khachHangRequest.getEmail());
@@ -90,12 +90,8 @@ public class Taikhoan implements Serializable {
 		khachhang.setSdt(khachHangRequest.getSdt());
 		khachhang.setTenkh(khachHangRequest.getTenkh());
 		
-		this.username = khachHangRequest.getUsername();
-		this.password = khachHangRequest.getPassword();
-		this.quyen = 1;
-		
-		khachhang.setTaikhoan(this);
-		this.setListKH(Arrays.asList(khachhang));
+		this.username = khachHangRequest.getUsername() != null ? khachHangRequest.getUsername() : this.getUsername();
+		this.password = khachHangRequest.getPassword() != null ? khachHangRequest.getUsername() : this.getPassword();
 	}
 	
 	/** Default constructor. */
