@@ -57,8 +57,6 @@ public class DiaDiemController {
 	{
 		try
 		{
-			int id =  (int) System.currentTimeMillis() % 100000000;
-			diadiem.setId(id);
 			repo.save(diadiem);
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		}
