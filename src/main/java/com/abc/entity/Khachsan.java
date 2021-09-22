@@ -27,7 +27,6 @@ public class Khachsan implements Serializable {
     private String maks;
     @Column(name="TENKS", length=200)
     private String tenks;
-    @JsonIgnore
     @OneToMany(mappedBy="khachsan")
     private Set<Datkhachsan> datkhachsan;
 

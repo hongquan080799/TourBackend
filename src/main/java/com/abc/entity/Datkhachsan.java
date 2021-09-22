@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="DATKHACHSAN")
 @IdClass(DatkhachsanId.class)
 public class Datkhachsan implements Serializable {
@@ -33,9 +35,11 @@ public class Datkhachsan implements Serializable {
     @ManyToOne(optional=false)
     @Id
     @JoinColumn(name="MAKS", nullable=false)
+    @JsonIgnore
     private Khachsan khachsan;
     @ManyToOne(optional=false)
     @Id
+    @JsonIgnore
     @JoinColumn(name="MATUYEN", nullable=false)
     private Tuyen tuyen;
 

@@ -86,6 +86,10 @@ public class NhaHangControler
 	{
 		if (!repo.existsById(id))
 		{
+			if (!repo.existsById(id)) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
+			Nhahang nhahang = repo.getById(id);
+			if (!nhahang.getDatnhahang().isEmpty()) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.CANTDELETE),HttpStatus.NOT_ACCEPTABLE);
+				
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
 		}
 		repo.deleteById(id);

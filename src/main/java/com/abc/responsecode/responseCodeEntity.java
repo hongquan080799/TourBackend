@@ -34,6 +34,11 @@ public class responseCodeEntity {
 				responseMessage = "Server error";
 				break;
 			}
+			case CANTDELETE:
+			{
+				responseCode = 403;
+				responseMessage = "Can't delete record";
+			}
 		}
 	}
 	

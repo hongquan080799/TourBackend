@@ -86,6 +86,8 @@ public class KhachSanControler {
 		{
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
 		}
+		Khachsan khachsan = repo.getById(id);
+		if (!repo.existsById(id)) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.CANTDELETE),HttpStatus.NOT_ACCEPTABLE);
 		
 		repo.deleteById(id);
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
