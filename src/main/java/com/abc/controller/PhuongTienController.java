@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.abc.responsecode.responseCode;
 import com.abc.responsecode.responseCodeEntity;
 
 @RestController
+@CrossOrigin
 public class PhuongTienController {
 	@Autowired
 	PhuongTienRepository repo;
@@ -85,6 +87,21 @@ public class PhuongTienController {
 		{
 			// TODO: handle exception
 			e.printStackTrace();      
+		}
+		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PutMapping("/phuongtien")
+	public ResponseEntity<Object> updatePhuongTien(@RequestBody Phuongtien phuongtien)
+	{
+		try
+		{
+			repo.save(phuongtien);
+			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
 		}
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
