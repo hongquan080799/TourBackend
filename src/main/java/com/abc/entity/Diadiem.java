@@ -32,7 +32,7 @@ public class Diadiem implements Serializable {
     private String tendiadiem;
     @Column(name="MOTA", length=500)
     private String mota;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy="diadiem")
     private Set<Lichtrinh> lichtrinh;

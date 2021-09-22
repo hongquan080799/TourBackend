@@ -28,32 +28,32 @@ public class Tuyen implements Serializable {
     private String matuyen;
     @Column(name="TENTUYEN", length=100)
     private String tentuyen;
-    @JsonIgnore
+    
     @OneToMany(mappedBy="tuyen")
     private Set<Datkhachsan> datkhachsan;
-    @JsonIgnore
+    
     @OneToMany(mappedBy="tuyen")
     private Set<Datnhahang> datnhahang;
-    @JsonIgnore
+ 
     @OneToMany(mappedBy="tuyen")
     private Set<Hinhthucdichuyen> hinhthucdichuyen;
-    @JsonIgnore
+
     @OneToMany(mappedBy="tuyen")
     private Set<Lichtrinh> lichtrinh;
     
     @OneToMany(mappedBy="tuyen")
     private List<Photo> photo;
-
+    @JsonIgnore
     @OneToMany(mappedBy="tuyen")
     private Set<Tour> tour;
-//    private String diadiemxp;
-//    public String getDiadiemxp() {
-//		return diadiemxp;
-//	}
-//
-//	public void setDiadiemxp(String diadiemxp) {
-//		this.diadiemxp = diadiemxp;
-//	}
+    private String diadiemxp;
+    public String getDiadiemxp() {
+		return diadiemxp;
+	}
+
+	public void setDiadiemxp(String diadiemxp) {
+		this.diadiemxp = diadiemxp;
+	}
 
 	private String mota;
     private String thoigian;
@@ -224,6 +224,7 @@ public class Tuyen implements Serializable {
         tour = aTour;
     }
 
+    
     /**
      * Compares the key for this instance with another Tuyen.
      *

@@ -60,11 +60,8 @@ public class KhachSanControler {
 	@PostMapping("/khachsan")
 	public ResponseEntity<Object> insertKhachSan(@RequestBody DTO_KhachSan dto_KhachSan)
 	{
-		if (repo.existsById(dto_KhachSan.getMaks()))
-		{
-			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.DUPLICATE),HttpStatus.NOT_ACCEPTABLE);
-		}
-		
+		String maks = "KS" +  System.currentTimeMillis() % 100000000;
+		dto_KhachSan.setMaks(maks);
 		repo.save(Converter_KhachSan.convertDTO_KhachSanToKhachsan(dto_KhachSan));
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 	}
@@ -88,6 +85,8 @@ public class KhachSanControler {
 		{
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
 		}
+		Khachsan khachsan = repo.getById(id);
+		if (!repo.existsById(id)) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.CANTDELETE),HttpStatus.NOT_ACCEPTABLE);
 		
 		repo.deleteById(id);
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);

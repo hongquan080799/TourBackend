@@ -59,6 +59,7 @@ public class DiaDiemController {
 	{
 		try
 		{
+			
 			repo.save(diadiem);
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		}
@@ -95,6 +96,8 @@ public class DiaDiemController {
 		try
 		{
 			if (!repo.existsById(id)) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
+			Diadiem diadiem = repo.getById(id);
+			if (!diadiem.getLichtrinh().isEmpty()) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.CANTDELETE),HttpStatus.NOT_ACCEPTABLE);
 			repo.deleteById(id);
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		}

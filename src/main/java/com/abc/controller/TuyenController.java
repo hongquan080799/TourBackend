@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +20,8 @@ import com.abc.entity.Photo;
 import com.abc.entity.Tuyen;
 import com.abc.repository.PhotoRepository;
 import com.abc.repository.TuyenRepository;
+import com.abc.responsecode.responseCode;
+import com.abc.responsecode.responseCodeEntity;
 
 @RestController
 @CrossOrigin
@@ -40,12 +44,12 @@ public class TuyenController {
 	}
 	
 	@PostMapping("/tuyen")
-	public ResponseEntity<String> insertTuyen(@Validated @RequestBody Tuyen tuyen){
+	public ResponseEntity<Object> insertTuyen(@Validated @RequestBody Tuyen tuyen){
 		//System.out.println(tuyen);
 		List<Tuyen> listTuyen = repo.findAll();
 		for(Tuyen tt : listTuyen) {
 			if(tt.getMatuyen().equalsIgnoreCase(tuyen.getMatuyen())) {
-				return new ResponseEntity<String>("Can't not insert tuyen " ,HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<Object>(new responseCodeEntity(responseCode.DUPLICATE),HttpStatus.NOT_ACCEPTABLE);
 			}
 		}
 		List<Photo> listPhoto = tuyen.getPhoto();
@@ -55,12 +59,46 @@ public class TuyenController {
 				p.setTuyen(tuyen);
 				photoRepo.save(p);
 			}
-			return new ResponseEntity<String>("Successfully \n",HttpStatus.OK);
+			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return new ResponseEntity<String>("Can't not insert tuyen \n" + e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+	}
+	
+	@PutMapping("/tuyen")
+	public ResponseEntity<Object> updateTuyen(@RequestBody Tuyen tuyen)
+	{
+		try
+		{
+			if (!repo.existsById(tuyen.getMatuyen())) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
+			repo.save(tuyen);
+			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("tuyen/{id}")
+	public ResponseEntity<Object> getOneTuyen(@PathVariable String id)
+	{
+		try
+		{
+			if (!repo.existsById(id)) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
+			
+			return new ResponseEntity<Object>(repo.getById(id),HttpStatus.OK);
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
