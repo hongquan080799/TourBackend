@@ -44,7 +44,7 @@ public class CtDattour implements Serializable {
     private String matour;
     @Id
     @Column(name="ID_NGUOIDAT", nullable=false, length=12)
-    private String id_nguoidat;
+    private int id_nguoidat;
     @Column(name="LOAIGIA", precision=10)
     private int loaigia;
     @ManyToOne(optional=false)
@@ -80,7 +80,7 @@ public class CtDattour implements Serializable {
      *
      * @return the current value of cmndNguoidat
      */
-    public String getIdNguoidat() {
+    public int getIdNguoidat() {
         return id_nguoidat;
     }
 
@@ -89,7 +89,7 @@ public class CtDattour implements Serializable {
      *
      * @param aCmndNguoidat the new value for cmndNguoidat
      */
-    public void setIdNguoidat(String aCmndNguoidat) {
+    public void setIdNguoidat(int aCmndNguoidat) {
         id_nguoidat = aCmndNguoidat;
     }
 
@@ -213,30 +213,30 @@ public class CtDattour implements Serializable {
      *
      * @return Hash code
      */
-    @Override
-    public int hashCode() {
-        int i;
-        int result = 17;
-        if (getMatour() == null) {
-            i = 0;
-        } else {
-            i = getMatour().hashCode();
-        }
-        result = 37*result + i;
-        if (getIdNguoidat() == null) {
-            i = 0;
-        } else {
-            i = getIdNguoidat().hashCode();
-        }
-        result = 37*result + i;
-        if (getKhachhangCmnd() == null) {
-            i = 0;
-        } else {
-            i = getKhachhangCmnd().hashCode();
-        }
-        result = 37*result + i;
-        return result;
-    }
+//    @Override
+//    public int hashCode() {
+//        int i;
+//        int result = 17;
+//        if (getMatour() == null) {
+//            i = 0;
+//        } else {
+//            i = getMatour().hashCode();
+//        }
+//        result = 37*result + i;
+//        if (getIdNguoidat() == null) {
+//            i = 0;
+//        } else {
+//            i = getIdNguoidat().hashCode();
+//        }
+//        result = 37*result + i;
+//        if (getKhachhangCmnd() == null) {
+//            i = 0;
+//        } else {
+//            i = getKhachhangCmnd().hashCode();
+//        }
+//        result = 37*result + i;
+//        return result;
+//    }
 
     /**
      * Returns a debug-friendly String representation of this instance.

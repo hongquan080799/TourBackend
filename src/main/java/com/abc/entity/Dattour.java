@@ -38,7 +38,7 @@ public class Dattour implements Serializable {
     private int soluong;
     @ManyToOne(optional=false)
     @Id
-    @JoinColumn(name="CMND", nullable=false)
+    @JoinColumn(name="MAKH", nullable=false)
     private Khachhang khachhang;
     @ManyToOne(optional=false)
     @Id
