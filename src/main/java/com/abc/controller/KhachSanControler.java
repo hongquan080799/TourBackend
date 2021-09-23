@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import com.abc.responsecode.responseCode;
 import com.abc.responsecode.responseCodeEntity;
 
 @RestController
+@CrossOrigin
 public class KhachSanControler {
 	@Autowired
 	KhachSanRepository repo;
@@ -58,11 +60,8 @@ public class KhachSanControler {
 	@PostMapping("/khachsan")
 	public ResponseEntity<Object> insertKhachSan(@RequestBody DTO_KhachSan dto_KhachSan)
 	{
-		if (repo.existsById(dto_KhachSan.getMaks()))
-		{
-			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.DUPLICATE),HttpStatus.NOT_ACCEPTABLE);
-		}
-		
+		String maks = "KS" +  System.currentTimeMillis() % 100000000;
+		dto_KhachSan.setMaks(maks);
 		repo.save(Converter_KhachSan.convertDTO_KhachSanToKhachsan(dto_KhachSan));
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 	}
