@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.abc.entity.Photo;
 import com.abc.entity.Tuyen;
+import com.abc.repository.DatKhachSanRepository;
+import com.abc.repository.DatNhaHangRepository;
+import com.abc.repository.HinhThucDiChuyenRepository;
+import com.abc.repository.LichTrinhRepository;
 import com.abc.repository.PhotoRepository;
 import com.abc.repository.TuyenRepository;
 import com.abc.responsecode.responseCode;
@@ -32,6 +36,18 @@ public class TuyenController {
 	
 	@Autowired
 	PhotoRepository photoRepo;
+	
+	@Autowired
+	LichTrinhRepository repoLichtrinh;
+	
+	@Autowired
+	HinhThucDiChuyenRepository repoHinhThucDiChuyen;
+	
+	@Autowired
+	DatKhachSanRepository repoDaKhachSan;
+	
+	@Autowired
+	DatNhaHangRepository repoDatNhaHang;
 	
 	@GetMapping("/tuyen")
 	public List<Tuyen> getListTuyen(){
@@ -74,7 +90,32 @@ public class TuyenController {
 		try
 		{
 			if (!repo.existsById(tuyen.getMatuyen())) return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
-			repo.save(tuyen);
+			
+			Tuyen tuyen1 = repo.getById(tuyen.getMatuyen());
+			tuyen1.updateTuyen(tuyen);
+			
+			repo.save(tuyen1);
+			
+			if (tuyen.getLichtrinh() != null)
+			{
+				repoLichtrinh.saveListLichTrinhTuyen(tuyen.getLichtrinh(), tuyen.getMatuyen());
+			}
+			
+			if (tuyen.getHinhthucdichuyen() != null)
+			{
+				repoHinhThucDiChuyen.saveListHTDCTuyen(tuyen.getHinhthucdichuyen(), tuyen.getMatuyen());
+			}
+			
+			if (tuyen.getDatkhachsan() != null)
+			{
+				repoDaKhachSan.saveListDatKhachSanTuyen(tuyen.getDatkhachsan(),tuyen.getMatuyen());
+			}
+			
+			if (tuyen.getDatnhahang() != null)
+			{
+				repoDatNhaHang.saveListDatNhaHangTuyen(tuyen.getDatnhahang(), tuyen.getMatuyen());
+			}
+			
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		}
 		catch (Exception e) 

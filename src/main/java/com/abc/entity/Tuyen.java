@@ -3,6 +3,9 @@
 package com.abc.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +60,30 @@ public class Tuyen implements Serializable {
 
 	private String mota;
     private String thoigian;
+    
+    
+    public void updateTuyen(Tuyen tuyen)
+    {
+    	if (tuyen.tentuyen != null)
+    	{
+    		this.setTentuyen(tuyen.getTentuyen());
+    	}
+    	
+    	if (tuyen.getMota() != null)
+    	{
+    		this.setMota(tuyen.getMota());
+    	}
+    	
+    	if (tuyen.getDiadiemxp() != null)
+    	{
+    		this.setDiadiemxp(tuyen.getDiadiemxp());
+    	}
+    	
+    	if (tuyen.thoigian != null)
+    	{
+    		this.setThoigian(tuyen.getThoigian());
+    	}
+    }
 
     /** Default constructor. */
     public Tuyen() {
