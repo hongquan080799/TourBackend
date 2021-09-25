@@ -49,6 +49,9 @@ public class TuyenController {
 	@Autowired
 	DatNhaHangRepository repoDatNhaHang;
 	
+	@Autowired
+	PhotoRepository repoPhoto;
+	
 	@GetMapping("/tuyen")
 	public List<Tuyen> getListTuyen(){
 		return repo.findAll();
@@ -115,7 +118,10 @@ public class TuyenController {
 			{
 				repoDatNhaHang.saveListDatNhaHangTuyen(tuyen.getDatnhahang(), tuyen.getMatuyen());
 			}
-			
+			if (tuyen.getPhoto() != null)
+			{
+				repoPhoto.saveListHinhAnhTuyen(tuyen.getPhoto(), tuyen.getMatuyen());
+			}
 			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SUCCESS),HttpStatus.OK);
 		}
 		catch (Exception e) 

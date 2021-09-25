@@ -50,7 +50,7 @@ public class KhachHangController {
 	}
 	
 	@GetMapping("/khachhang?id={id}")
-	public ResponseEntity<Object> getOneKhachHang(@Param(value = "id") String id)
+	public ResponseEntity<Object> getOneKhachHang(@Param(value = "id") int id)
 	{
 		try
 		{
@@ -65,6 +65,9 @@ public class KhachHangController {
 		}
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@GetMapping("/khachhang/cmmd/{cmnd}")
+	
 	
 	@PostMapping("/khachhang")
 	public ResponseEntity<Object> insertKhachHang(@RequestBody KhachHangRequest khachHangRequest)
