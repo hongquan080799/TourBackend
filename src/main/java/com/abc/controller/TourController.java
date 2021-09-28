@@ -51,9 +51,12 @@ public class TourController {
 		return repo.findAlTourByTuyen(tuyen);
 	}
 	@PostMapping("/tour")
-	public ResponseEntity<Boolean> insertTour(@Validated @RequestBody Tour tour){
+	public ResponseEntity<Boolean> insertTour(@Validated @RequestBody Tour tour, @RequestParam("matuyen") String matuyen){
 		String matour = "T" + System.currentTimeMillis() % 1000000000 ;
 		tour.setMatour(matour);
+		Tuyen t = new Tuyen();
+		t.setMatuyen(matuyen);
+		tour.setTuyen(t);
 		try {
 			repo.save(tour);
 			return new ResponseEntity<Boolean>(true,HttpStatus.OK);
@@ -76,8 +79,10 @@ public class TourController {
 	}
 	@PutMapping("/tour")
 	public ResponseEntity<Boolean> updateTour(@Validated @RequestBody Tour tour){
+		Tour t = repo.findById(tour.getMatour()).get();
+		t.updateTour(tour);
 		try {
-			repo.save(tour);
+			repo.save(t);
 			return new ResponseEntity<Boolean>(true,HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception

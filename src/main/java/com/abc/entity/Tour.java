@@ -51,6 +51,12 @@ public class Tour{
         return matour;
     }
 
+    public void updateTour(Tour request) {
+    	this.setGianguoilon(request.getGianguoilon());
+    	this.setGiatreem(request.getGiatreem());
+    	this.setTgbd(request.getTgbd());
+    	this.setTgkt(request.getTgkt());
+    }
     /**
      * Setter method for matour.
      *
