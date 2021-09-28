@@ -1,6 +1,7 @@
 package com.abc.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abc.dto.KhachHangCostume;
+import com.abc.entity.CtDatTourCostume;
 import com.abc.entity.CtDattour;
 import com.abc.entity.Dattour;
 import com.abc.entity.Khachhang;
 import com.abc.entity.Taikhoan;
 import com.abc.entity.Tour;
+import com.abc.repository.CtDatTourCostumeRepository;
 import com.abc.repository.CtDatTourRepository;
 import com.abc.repository.DatTourRepository;
 import com.abc.repository.KhachHangRepository;
@@ -45,6 +48,9 @@ public class DatTourController {
 	
 	@Autowired
 	TaikhoanRepository repoTaiKhoan;
+	
+	@Autowired
+	CtDatTourCostumeRepository repoCtDattourCostume;
 	
 	@GetMapping("/dattour/{idtour}")
 	public ResponseEntity<Object> getDanhSachDatTour(@PathVariable String idtour)
@@ -116,4 +122,30 @@ public class DatTourController {
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	
+	@GetMapping("dattour/chitiet/{idkh}/{idtour}")
+	public ResponseEntity<Object> getCtDatTour(@PathVariable("idkh") int idkh, @PathVariable("idtour") String idtour)
+	{
+		try
+		{
+			List<Dattour> dattours = repo.findAll();
+			
+			for (Dattour dattour:dattours)
+			{
+				if (dattour.getKhachhang().getId() == idkh && dattour.getTour().getMatour().equalsIgnoreCase(idtour))
+				{
+					List<CtDatTourCostume> costumes = repoCtDattourCostume.getCtDatTour(idkh, idtour);
+					return new ResponseEntity<Object>(costumes,HttpStatus.OK);
+				}
+			}
+			
+			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }
