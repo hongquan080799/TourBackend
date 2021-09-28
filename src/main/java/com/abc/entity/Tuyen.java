@@ -46,7 +46,7 @@ public class Tuyen implements Serializable {
     
     @OneToMany(mappedBy="tuyen")
     private List<Photo> photo;
-    @JsonIgnore
+    
     @OneToMany(mappedBy="tuyen")
     private Set<Tour> tour;
     private String diadiemxp;

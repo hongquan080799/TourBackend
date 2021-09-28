@@ -5,6 +5,7 @@ public class KhachHangCostume {
 	String name;
 	String sdt;
 	String email;
+	Integer loaive;
 	
 	public String getCmnd() {
 		return cmnd;
@@ -29,6 +30,12 @@ public class KhachHangCostume {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public Integer getLoaive() {
+		return loaive;
+	}
+	public void setLoaive(Integer loaive) {
+		this.loaive = loaive;
 	}
 	
 	

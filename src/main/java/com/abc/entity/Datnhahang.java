@@ -34,7 +34,6 @@ public class Datnhahang implements Serializable {
 
     @ManyToOne(optional=false)
     @Id
-    @JsonIgnore
     @JoinColumn(name="MANH", nullable=false)
     private Nhahang nhahang;
     @ManyToOne(optional=false)

@@ -28,6 +28,7 @@ import com.abc.entity.Tuyen;
 import com.abc.repository.CtDatTourRepository;
 import com.abc.repository.TourRepository;
 import com.abc.repository.TuyenRepository;
+import com.abc.response.TourResponse;
 import com.abc.responsecode.responseCode;
 import com.abc.responsecode.responseCodeEntity;
 
@@ -85,37 +86,54 @@ public class TourController {
 		return new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping("tour/{id}/danhsach")
-	public ResponseEntity<Object> getDanhSachThamGiaTour(@PathVariable String id)
-	{
-		try
-		{
-			Tour tour = repo.getById(id);
-			List<CtDattour> ctDattours = repoCtDatTour.findAll();
-			List<Khachhang> khachhangs = new ArrayList<Khachhang>();
-			for (Dattour dattour:tour.getDattour())
-			{
-				for (CtDattour ctDattour:ctDattours)
-				{
-					if (ctDattour.getKhachhang().getId() == dattour.getKhachhang().getId() && ctDattour.getMatour().equalsIgnoreCase(id))
-					{
-						khachhangs.add(ctDattour.getKhachhang());
-					}
-					khachhangs.add(dattour.getKhachhang());
-				}
-			}
-			
-			return new  ResponseEntity<Object>(khachhangs,HttpStatus.OK);
-			
-		}
-		catch (Exception e) 
-		{
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
-				
+	@GetMapping("/tour/{matour}")
+	public TourResponse getTourById(@PathVariable String matour) {
+		Tour tour = repo.findById(matour).get();
+		TourResponse tourResponse = new TourResponse();
+		
+		tourResponse.setMatour(tour.getMatour());
+		tourResponse.setTentour(tour.getTuyen().getTentuyen());
+		tourResponse.setNgaydi(tour.getTgbd());
+		tourResponse.setNgayve(tour.getTgkt());
+		tourResponse.setGianguoilon(tour.getGianguoilon());
+		tourResponse.setGiatreem(tour.getGiatreem());
+		tourResponse.setThoigian(tour.getTuyen().getThoigian());
+		tourResponse.setPhoto(tour.getTuyen().getPhoto().get(0).getPicture());
+		return tourResponse;
+		
 	}
+	
+//	@GetMapping("tour/{id}/danhsach")
+//	public ResponseEntity<Object> getDanhSachThamGiaTour(@PathVariable String id)
+//	{
+//		try
+//		{
+//			Tour tour = repo.getById(id);
+//			List<CtDattour> ctDattours = repoCtDatTour.findAll();
+//			List<Khachhang> khachhangs = new ArrayList<Khachhang>();
+//			for (Dattour dattour:tour.getDattour())
+//			{
+//				for (CtDattour ctDattour:ctDattours)
+//				{
+//					if (ctDattour.getKhachhang().getId() == dattour.getKhachhang().getId() && ctDattour.getMatour().equalsIgnoreCase(id))
+//					{
+//						khachhangs.add(ctDattour.getKhachhang());
+//					}
+//					khachhangs.add(dattour.getKhachhang());
+//				}
+//			}
+//			
+//			return new  ResponseEntity<Object>(khachhangs,HttpStatus.OK);
+//			
+//		}
+//		catch (Exception e) 
+//		{
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+//				
+//	}
 	
 	
 	@PostMapping("/hongquan")

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ import com.abc.responsecode.responseCodeEntity;
 import javassist.expr.NewArray;
 
 @RestController
+@CrossOrigin
 public class DatTourController {
 	
 	@Autowired
@@ -52,6 +54,8 @@ public class DatTourController {
 	@Autowired
 	CtDatTourCostumeRepository repoCtDattourCostume;
 	
+	
+	
 	@GetMapping("/dattour/{idtour}")
 	public ResponseEntity<Object> getDanhSachDatTour(@PathVariable String idtour)
 	{
@@ -70,11 +74,15 @@ public class DatTourController {
 	@PostMapping("/dattour")
 	public ResponseEntity<Object> datTour(Principal principal,@RequestBody DatTourRequest datTourRequest)
 	{
+		Taikhoan taikhoan = repoTaiKhoan.getById(principal.getName());
+		
+		Khachhang khDatTour = taikhoan.getListKH().get(0);
+		
 		try
 		{
-			repo.insertDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(), datTourRequest.getTrangthai(), datTourRequest.getSoluong(),datTourRequest.getHttt());
+			repo.insertDatTour(datTourRequest.getIdTour(),khDatTour.getId(), datTourRequest.getTrangthai(), datTourRequest.getSoluong(),datTourRequest.getHttt());
 			
-			Taikhoan taikhoan = repoTaiKhoan.getById(principal.getName());
+			
 			
 			
 			repoCtDatTour.deleteCtDattourTour(datTourRequest.getIdTour(), taikhoan.getListKH().get(0).getId());
@@ -110,7 +118,7 @@ public class DatTourController {
 						repoKhachHang.save(khachhang);
 					}
 				}
-				repoCtDatTour.insertCtDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(),khachhang.getId(), 1);
+				repoCtDatTour.insertCtDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(),khachhang.getId(), khachHangCostume.getLoaive());
 			}
 			
 		}
