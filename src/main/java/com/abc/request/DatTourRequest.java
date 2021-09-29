@@ -1,5 +1,6 @@
 package com.abc.request;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.abc.dto.KhachHangCostume;
@@ -11,7 +12,14 @@ public class DatTourRequest {
 	int trangthai;
 	int httt;
 	int soluong;
+	LocalDateTime thoigian;
 	
+	public LocalDateTime getThoigian() {
+		return thoigian;
+	}
+	public void setThoigian(LocalDateTime thoigian) {
+		this.thoigian = thoigian;
+	}
 	public int getIdkh() {
 		return idkh;
 	}

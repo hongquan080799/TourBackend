@@ -3,6 +3,7 @@
 package com.abc.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -51,7 +52,11 @@ public class CtDattour implements Serializable {
     @Id
     @JoinColumn(name="ID_KHACHHANG", nullable=false)
     private Khachhang khachhang;
-
+    @Id
+    @JoinColumn(name =  "THOIGIAN")
+    LocalDateTime thoigian;
+    
+    
     /** Default constructor. */
     public CtDattour() {
         super();

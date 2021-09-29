@@ -3,6 +3,7 @@
 package com.abc.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -44,6 +45,9 @@ public class Dattour implements Serializable {
     @Id
     @JoinColumn(name="MATOUR", nullable=false)
     private Tour tour;
+    @Id
+    @JoinColumn(name = "THOIGIAN")
+    private LocalDateTime thoigian;
 
     /** Default constructor. */
     public Dattour() {
@@ -156,8 +160,16 @@ public class Dattour implements Serializable {
     public String getKhachhangCmnd() {
         return (getKhachhang() == null ? tempKhachhangCmnd : getKhachhang().getCmnd());
     }
+    
+    public LocalDateTime getThoigian() {
+		return thoigian;
+	}
 
-    /**
+	public void setThoigian(LocalDateTime thoigian) {
+		this.thoigian = thoigian;
+	}
+
+	/**
      * Sets the key fragment cmnd from member khachhang.
      * If this.khachhang is null, the passed value will be temporary
      * stored, and returned by subsequent calls to getKhachhangCmnd.

@@ -1,6 +1,7 @@
 package com.abc.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 
@@ -12,8 +13,15 @@ public class CtDatTourID  implements Serializable {
 	java.lang.String matour;
     java.lang.String id_nguoidat;
     Khachhang khachhang;
+    LocalDateTime thoigian;
     
     
+	public LocalDateTime getThoigian() {
+		return thoigian;
+	}
+	public void setThoigian(LocalDateTime thoigian) {
+		this.thoigian = thoigian;
+	}
 	public java.lang.String getMatour() {
 		return matour;
 	}

@@ -57,7 +57,8 @@ public class DatTourController {
 	{
 		try
 		{
-			repo.findAll();
+			
+			return new ResponseEntity<Object>(repo.findAll(),HttpStatus.OK);
 		}
 		catch (Exception e) 
 		{
@@ -72,32 +73,19 @@ public class DatTourController {
 	{
 		try
 		{
-			repo.insertDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(), datTourRequest.getTrangthai(), datTourRequest.getSoluong(),datTourRequest.getHttt());
+			repo.insertDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(), datTourRequest.getTrangthai(), datTourRequest.getSoluong(),datTourRequest.getHttt(),datTourRequest.getThoigian());
 			
 			Taikhoan taikhoan = repoTaiKhoan.getById(principal.getName());
 			
 			
-			repoCtDatTour.deleteCtDattourTour(datTourRequest.getIdTour(), taikhoan.getListKH().get(0).getId());
+			repoCtDatTour.deleteCtDattourTour(datTourRequest.getIdTour(), taikhoan.getListKH().get(0).getId(),datTourRequest.getThoigian());
 			
 			Khachhang khachhang;
-			for (KhachHangCostume khachHangCostume :datTourRequest.getThamgias())
+			if(datTourRequest.getThamgias().size() != 0)
 			{
-				if (khachHangCostume.getCmnd() == null)
+				for (KhachHangCostume khachHangCostume :datTourRequest.getThamgias())
 				{
-					// tạo
-					int makh = (int) System.currentTimeMillis() % 100000000;
-					khachhang = new Khachhang();
-					khachhang.setId(makh);
-					khachhang.setTenkh(khachHangCostume.getName());
-					khachhang.setCmnd(khachHangCostume.getCmnd());
-					khachhang.setSdt(khachHangCostume.getSdt());
-					khachhang.setEmail(khachHangCostume.getEmail());
-					repoKhachHang.save(khachhang);
-				}
-				else
-				{
-					khachhang = repoKhachHang.getKhachHang(khachHangCostume.getCmnd());
-					if (khachhang == null)
+					if (khachHangCostume.getCmnd() == null)
 					{
 						// tạo
 						int makh = (int) System.currentTimeMillis() % 100000000;
@@ -109,10 +97,27 @@ public class DatTourController {
 						khachhang.setEmail(khachHangCostume.getEmail());
 						repoKhachHang.save(khachhang);
 					}
+					else
+					{
+						khachhang = repoKhachHang.getKhachHang(khachHangCostume.getCmnd());
+						if (khachhang == null)
+						{
+							// tạo
+							int makh = (int) System.currentTimeMillis() % 100000000;
+							khachhang = new Khachhang();
+							khachhang.setId(makh);
+							khachhang.setTenkh(khachHangCostume.getName());
+							khachhang.setCmnd(khachHangCostume.getCmnd());
+							khachhang.setSdt(khachHangCostume.getSdt());
+							khachhang.setEmail(khachHangCostume.getEmail());
+							repoKhachHang.save(khachhang);
+						}
+					}
+					repoCtDatTour.insertCtDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(),khachhang.getId(), 1,datTourRequest.getThoigian());
 				}
-				repoCtDatTour.insertCtDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(),khachhang.getId(), 1);
 			}
-			
+					
+		
 		}
 		catch (Exception e) 
 		{
