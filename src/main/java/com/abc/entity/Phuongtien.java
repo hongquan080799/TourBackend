@@ -28,6 +28,7 @@ public class Phuongtien implements Serializable {
     @Column(name="TENPT", length=200)
     private String tenpt;
     
+    @JsonIgnore
     @OneToMany(mappedBy="phuongtien")
     private Set<Hinhthucdichuyen> hinhthucdichuyen;
 

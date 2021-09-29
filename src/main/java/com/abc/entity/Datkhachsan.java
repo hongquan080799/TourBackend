@@ -35,7 +35,6 @@ public class Datkhachsan implements Serializable {
     @ManyToOne(optional=false)
     @Id
     @JoinColumn(name="MAKS", nullable=false)
-    @JsonIgnore
     private Khachsan khachsan;
     @ManyToOne(optional=false)
     @Id

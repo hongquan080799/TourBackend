@@ -34,7 +34,6 @@ public class Hinhthucdichuyen implements Serializable {
 
     @ManyToOne(optional=false)
     @Id
-    @JsonIgnore
     @JoinColumn(name="MAPT", nullable=false)
     private Phuongtien phuongtien;
     @ManyToOne(optional=false)
