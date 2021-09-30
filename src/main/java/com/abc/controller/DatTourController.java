@@ -1,11 +1,20 @@
 package com.abc.controller;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +35,14 @@ import com.abc.repository.KhachHangRepository;
 import com.abc.repository.TaikhoanRepository;
 import com.abc.repository.TourRepository;
 import com.abc.request.DatTourRequest;
+import com.abc.response.TourOrderResponse;
 import com.abc.responsecode.responseCode;
 import com.abc.responsecode.responseCodeEntity;
 
 import javassist.expr.NewArray;
 
 @RestController
+@CrossOrigin
 public class DatTourController {
 	
 	@Autowired
@@ -52,13 +63,37 @@ public class DatTourController {
 	@Autowired
 	CtDatTourCostumeRepository repoCtDattourCostume;
 	
-	@GetMapping("/dattour/{idtour}")
-	public ResponseEntity<Object> getDanhSachDatTour(@PathVariable String idtour)
+	@Autowired
+	EntityManager entityManager;
+	
+	@GetMapping("/dattour")
+	public ResponseEntity<Object> getDanhSachDatTour()
 	{
+		String from = "from TOUR t join dbo.DATTOUR dt on t.MATOUR = dt.MATOUR "
+				+ "JOIN dbo.TUYEN tn on tn.MATUYEN  = t.MATUYEN  "
+				+ "JOIN  dbo.KHACHHANG  kh on dt.MAKH = kh.ID ";
+		String select = "select dt.MATOUR as matour , tn.TENTUYEN as tentour, dt.SOLUONG as soluong , dt.THOIGIAN as thoigian , kh.TENKH , kh.id  ";
+		String from_kh = "from Khachhang where id in (select id_khachhang from ct_dattour where matour = ?1 and id_nguoidat = ?2 and abs(datediff(millisecond, thoigian, ?3)) < 1000)";
+		String select_kh = "select * ";
 		try
-		{
+		{			
 			
-			return new ResponseEntity<Object>(repo.findAll(),HttpStatus.OK);
+			Query query = entityManager.createNativeQuery(select + from);
+			List<TourOrderResponse> listTour = new ArrayList<>();
+			List<?> list = query.getResultList();
+			for(Object l : list) {
+				Object[] listOb = (Object[]) l;
+				TourOrderResponse t = new TourOrderResponse(listOb);
+				Query queryKH = entityManager.createNativeQuery(select_kh + from_kh, Khachhang.class);
+				queryKH.setParameter(1, t.getMatour());
+				queryKH.setParameter(2, t.getId_nguoidat());
+				queryKH.setParameter(3, t.getThoigian());
+				List<Khachhang> listKH = queryKH.getResultList();
+				t.setListKH(listKH);
+				listTour.add(t);
+			}
+			return new ResponseEntity<Object>(listTour,HttpStatus.OK);
+			
 		}
 		catch (Exception e) 
 		{
@@ -73,10 +108,13 @@ public class DatTourController {
 	{
 		try
 		{
+			Taikhoan taikhoan = repoTaiKhoan.getById(principal.getName());
+			LocalDateTime thoigian = LocalDateTime.now();
+			datTourRequest.setIdkh(taikhoan.getListKH().get(0).getId());
+			datTourRequest.setThoigian(thoigian);
 			repo.insertDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(), datTourRequest.getTrangthai(), datTourRequest.getSoluong(),datTourRequest.getHttt(),datTourRequest.getThoigian());
 			
-			Taikhoan taikhoan = repoTaiKhoan.getById(principal.getName());
-			
+				
 			
 			repoCtDatTour.deleteCtDattourTour(datTourRequest.getIdTour(), taikhoan.getListKH().get(0).getId(),datTourRequest.getThoigian());
 			
@@ -103,14 +141,12 @@ public class DatTourController {
 						if (khachhang == null)
 						{
 							// tạo
-							int makh = (int) System.currentTimeMillis() % 100000000;
 							khachhang = new Khachhang();
-							khachhang.setId(makh);
 							khachhang.setTenkh(khachHangCostume.getName());
 							khachhang.setCmnd(khachHangCostume.getCmnd());
 							khachhang.setSdt(khachHangCostume.getSdt());
 							khachhang.setEmail(khachHangCostume.getEmail());
-							repoKhachHang.save(khachhang);
+							khachhang = repoKhachHang.save(khachhang);
 						}
 					}
 					repoCtDatTour.insertCtDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(),khachhang.getId(), 1,datTourRequest.getThoigian());
@@ -129,23 +165,38 @@ public class DatTourController {
 	}
 	
 	
-	@GetMapping("dattour/chitiet/{idkh}/{idtour}")
-	public ResponseEntity<Object> getCtDatTour(@PathVariable("idkh") int idkh, @PathVariable("idtour") String idtour)
+	@GetMapping("/dattour/self")
+	public ResponseEntity<Object> getDatTourByMakh(Principal principal)
 	{
+		Taikhoan tk = repoTaiKhoan.findByUsername(principal.getName());
+		Integer makh = tk.getListKH().get(0).getId();
+		String from = "from TOUR t join dbo.DATTOUR dt on t.MATOUR = dt.MATOUR "
+				+ "JOIN dbo.TUYEN tn on tn.MATUYEN  = t.MATUYEN  "
+				+ "JOIN  dbo.KHACHHANG  kh on dt.MAKH = kh.id "
+				+ "WHERE kh.id = ?1";
+		String select = "select dt.MATOUR as matour , tn.TENTUYEN as tentour, dt.SOLUONG as soluong , dt.THOIGIAN as thoigian , kh.TENKH , kh.id  ";
+		String from_kh = "from Khachhang where id in (select id_khachhang from ct_dattour where matour = ?1 and id_nguoidat = ?2 and abs(datediff(millisecond, thoigian, ?3)) < 1000)";
+		String select_kh = "select * ";
 		try
-		{
-			List<Dattour> dattours = repo.findAll();
+		{			
 			
-			for (Dattour dattour:dattours)
-			{
-				if (dattour.getKhachhang().getId() == idkh && dattour.getTour().getMatour().equalsIgnoreCase(idtour))
-				{
-					List<CtDatTourCostume> costumes = repoCtDattourCostume.getCtDatTour(idkh, idtour);
-					return new ResponseEntity<Object>(costumes,HttpStatus.OK);
-				}
+			Query query = entityManager.createNativeQuery(select + from);
+			query.setParameter(1, makh);
+			List<TourOrderResponse> listTour = new ArrayList<>();
+			List<?> list = query.getResultList();
+			for(Object l : list) {
+				Object[] listOb = (Object[]) l;
+				TourOrderResponse t = new TourOrderResponse(listOb);
+				Query queryKH = entityManager.createNativeQuery(select_kh + from_kh, Khachhang.class);
+				queryKH.setParameter(1, t.getMatour());
+				queryKH.setParameter(2, t.getId_nguoidat());
+				queryKH.setParameter(3, t.getThoigian());
+				List<Khachhang> listKH = queryKH.getResultList();
+				t.setListKH(listKH);
+				listTour.add(t);
 			}
+			return new ResponseEntity<Object>(listTour,HttpStatus.OK);
 			
-			return new ResponseEntity<Object>(new responseCodeEntity(responseCode.NOTFOUND),HttpStatus.NOT_FOUND);
 		}
 		catch (Exception e) 
 		{
@@ -154,4 +205,5 @@ public class DatTourController {
 		}
 		return new ResponseEntity<Object>(new responseCodeEntity(responseCode.SERVERERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
 }
