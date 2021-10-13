@@ -13,6 +13,7 @@ public class TourOrderResponse {
 	String nguoidat;
 	Integer id_nguoidat;
 	List<Khachhang> listKH;
+	Double tongtien;
 	
 	
 	public TourOrderResponse(Object[] list) {
@@ -71,6 +72,14 @@ public class TourOrderResponse {
 	}
 	public void setNguoidat(String nguoidat) {
 		this.nguoidat = nguoidat;
+	}
+
+	public Double getTongtien() {
+		return tongtien;
+	}
+
+	public void setTongtien(Double tongtien) {
+		this.tongtien = tongtien;
 	}
 	
 	

@@ -75,6 +75,15 @@ public class DatTourController {
 		String select = "select dt.MATOUR as matour , tn.TENTUYEN as tentour, dt.SOLUONG as soluong , dt.THOIGIAN as thoigian , kh.TENKH , kh.id  ";
 		String from_kh = "from Khachhang where id in (select id_khachhang from ct_dattour where matour = ?1 and id_nguoidat = ?2 and abs(datediff(millisecond, thoigian, ?3)) < 1000)";
 		String select_kh = "select * ";
+		String getTourPrice = "select "
+				+ "sum( "
+				+ "case "
+				+ "when cd.LOAIGIA  = 1 then t.GIANGUOILON "
+				+ "when cd.LOAIGIA  = 0 then t.GIATREEM "
+				+ "end) "
+				+ "as GIATOUR "
+				+ "from CT_DATTOUR cd join TOUR t on cd.MATOUR  = t.MATOUR "
+				+ "where cd.MATOUR = ?1 and cd.ID_NGUOIDAT = ?2 and abs(datediff(millisecond, cd.THOIGIAN , ?3)) < 1000 ";
 		try
 		{			
 			
@@ -90,6 +99,13 @@ public class DatTourController {
 				queryKH.setParameter(3, t.getThoigian());
 				List<Khachhang> listKH = queryKH.getResultList();
 				t.setListKH(listKH);
+				//get tour price
+				Query queryTourPrice = entityManager.createNativeQuery(getTourPrice);
+				queryTourPrice.setParameter(1, t.getMatour());
+				queryTourPrice.setParameter(2, t.getId_nguoidat());
+				queryTourPrice.setParameter(3, t.getThoigian());
+				Object tourPrice = (Object) queryTourPrice.getSingleResult(); 
+				t.setTongtien((Double) tourPrice);
 				listTour.add(t);
 			}
 			return new ResponseEntity<Object>(listTour,HttpStatus.OK);
@@ -149,7 +165,7 @@ public class DatTourController {
 							khachhang = repoKhachHang.save(khachhang);
 						}
 					}
-					repoCtDatTour.insertCtDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(),khachhang.getId(), 1,datTourRequest.getThoigian());
+					repoCtDatTour.insertCtDatTour(datTourRequest.getIdTour(),datTourRequest.getIdkh(),khachhang.getId(), khachHangCostume.getLoaive(),datTourRequest.getThoigian());
 				}
 			}
 					
@@ -177,6 +193,15 @@ public class DatTourController {
 		String select = "select dt.MATOUR as matour , tn.TENTUYEN as tentour, dt.SOLUONG as soluong , dt.THOIGIAN as thoigian , kh.TENKH , kh.id  ";
 		String from_kh = "from Khachhang where id in (select id_khachhang from ct_dattour where matour = ?1 and id_nguoidat = ?2 and abs(datediff(millisecond, thoigian, ?3)) < 1000)";
 		String select_kh = "select * ";
+		String getTourPrice = "select "
+				+ "sum( "
+				+ "case "
+				+ "when cd.LOAIGIA  = 1 then t.GIANGUOILON "
+				+ "when cd.LOAIGIA  = 0 then t.GIATREEM "
+				+ "end) "
+				+ "as GIATOUR "
+				+ "from CT_DATTOUR cd join TOUR t on cd.MATOUR  = t.MATOUR "
+				+ "where cd.MATOUR = ?1 and cd.ID_NGUOIDAT = ?2 and abs(datediff(millisecond, cd.THOIGIAN , ?3)) < 1000 ";
 		try
 		{			
 			
@@ -193,6 +218,13 @@ public class DatTourController {
 				queryKH.setParameter(3, t.getThoigian());
 				List<Khachhang> listKH = queryKH.getResultList();
 				t.setListKH(listKH);
+				//get tour price
+				Query queryTourPrice = entityManager.createNativeQuery(getTourPrice);
+				queryTourPrice.setParameter(1, t.getMatour());
+				queryTourPrice.setParameter(2, t.getId_nguoidat());
+				queryTourPrice.setParameter(3, t.getThoigian());
+				Object tourPrice = (Object) queryTourPrice.getSingleResult(); 
+				t.setTongtien((Double) tourPrice);
 				listTour.add(t);
 			}
 			return new ResponseEntity<Object>(listTour,HttpStatus.OK);
